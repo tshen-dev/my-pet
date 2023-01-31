@@ -1,1 +1,3 @@
 environment: staging
+server:
+  port: 8080

@@ -1,2 +1,13 @@
 environment: default
-name: default-name
+
+spring:
+  application:
+    name: user-service
+  config:
+    import: optional:configserver:${SPRING_CLOUD_CONFIG_URL:http://localhost:8080}
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:MyPetDev}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
+  resource: ${KEYCLOAK_CLIENT:my-pet}
+  bearer-only: true

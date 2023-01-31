@@ -27,6 +27,8 @@ services:
       DB_PASSWORD: password
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import
     command: start-dev --import-realm
     ports:
       - "9000:8080"
