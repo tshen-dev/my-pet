@@ -1,5 +1,9 @@
 server:
   port: 8081
 spring:
+  application:
+    name: user-service
   profiles:
     active: ${ACTIVE_PROFILES:}
+  config:
+    import: optional:configserver:${SPRING_CLOUD_CONFIG_URL:http://localhost:8080}
