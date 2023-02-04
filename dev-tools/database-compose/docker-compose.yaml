@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:13.5
+    container_name: my-pet-database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - my-pet
+networks:
+  my-pet:
+    external: true
+volumes:
+  database:
