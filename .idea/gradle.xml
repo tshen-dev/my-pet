@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/infrastructure/spring-could-config" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Program Files/gradle-6.9.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/infrastructure/spring-could-config" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/services/my-pet-service-template" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Program Files/gradle-6.9.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/services/my-pet-service-template" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/services/my-pet-utils" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Program Files/gradle-6.9.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/services/my-pet-utils" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/services/notification-service" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Program Files/gradle-6.9.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/services/notification-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/services/user-service" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Program Files/gradle-6.9.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/services/user-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
