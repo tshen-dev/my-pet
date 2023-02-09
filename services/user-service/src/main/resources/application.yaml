@@ -1,3 +1,4 @@
+environment: local
 server:
   port: 8081
 spring:

@@ -1,5 +1,3 @@
-environment: default
-
 keycloak:
   realm: ${KEYCLOAK_REALM:MyPetDev}
   auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
