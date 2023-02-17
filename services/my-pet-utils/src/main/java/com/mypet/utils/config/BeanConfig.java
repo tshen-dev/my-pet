@@ -1,4 +1,4 @@
-package com.mypet.user.config;
+package com.mypet.utils.config;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

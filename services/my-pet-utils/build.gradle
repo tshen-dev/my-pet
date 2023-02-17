@@ -1,23 +1,38 @@
 plugins {
   id 'org.springframework.boot' version '2.7.3'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-  id 'java'
+  id 'java-library'
+  id 'maven-publish'
 }
 
-group = 'com.mypet'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
   mavenCentral()
+  mavenLocal()
+}
+
+ext {
+  set('keycloakVersion', "19.0.0")
+}
+
+java {
+  withSourcesJar()
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      group = 'com.mypet'
+      artifactId = 'my-pet-utils'
+      version = '0.0.1'
+
+      from components.java
+    }
+  }
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter'
-
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-  useJUnitPlatform()
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
 }

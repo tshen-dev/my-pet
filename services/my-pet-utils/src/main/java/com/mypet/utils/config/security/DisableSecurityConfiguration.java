@@ -1,4 +1,4 @@
-package com.mypet.notification.config.security;
+package com.mypet.utils.config.security;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

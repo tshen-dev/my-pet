@@ -1,4 +1,12 @@
 environment: local
+
+keycloak:
+  enabled: true
+  realm: ${KEYCLOAK_REALM:MyPetDev}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
+  resource: ${KEYCLOAK_CLIENT:my-pet}
+  bearer-only: true
+
 server:
   port: 8081
 spring:

@@ -1,4 +1,4 @@
-package com.mypet.notification.config.security;
+package com.mypet.utils.config.security;
 
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;

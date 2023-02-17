@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: empty-example
-      author: liquibase-docs
+      id: empty
+      author: tshen
       changes:
         - empty: { }
 #  - include:
