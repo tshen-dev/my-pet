@@ -1,10 +1,13 @@
 plugins {
-  id 'org.springframework.boot' version '2.7.3'
+  id 'org.springframework.boot' version '2.7.8'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-  id 'java-library'
-  id 'maven-publish'
+  id 'java'
 }
 
+apply from: "../dependencies.gradle"
+
+group = 'com.mypet'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
@@ -12,31 +15,10 @@ repositories {
   mavenLocal()
 }
 
-ext {
-  set('keycloakVersion', "19.0.0")
-}
-
-java {
-  withSourcesJar()
-}
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      group = 'com.mypet'
-      artifactId = 'my-pet-utils'
-      version = '0.0.1'
-
-      from components.java
-    }
-  }
-}
-
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+  implementation libs.keycloakSpringBootStarter
 
-  compileOnly 'org.projectlombok:lombok:1.18.24'
-
-  annotationProcessor 'org.projectlombok:lombok:1.18.24'
+  compileOnly libs.lombok
+  annotationProcessor libs.lombok
 }

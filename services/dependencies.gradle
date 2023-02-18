@@ -1,0 +1,21 @@
+ext {
+  keycloakVersion = "19.0.0"
+  springCloudVersion = "2021.0.5"
+
+  libs = [
+      lombok: 'org.projectlombok:lombok:1.18.24',
+
+      postgresql: 'org.postgresql:postgresql:42.5.3',
+      liquibase: 'org.liquibase:liquibase-core:4.19.0',
+
+      mapstruct: 'org.mapstruct:mapstruct:1.5.3.Final',
+      mapstructProcessor: 'org.mapstruct:mapstruct-processor:1.5.3.Final',
+
+      keycloakSpringBootStarter: "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion",
+      keycloakAdminClient: "org.keycloak:keycloak-admin-client:$keycloakVersion",
+
+      angusMail: 'org.eclipse.angus:angus-mail:2.0.1',
+      jakartaActivationApi: 'jakarta.activation:jakarta.activation-api:2.1.1',
+      jakartaMailApi: 'jakarta.mail:jakarta.mail-api:2.1.1'
+  ]
+}

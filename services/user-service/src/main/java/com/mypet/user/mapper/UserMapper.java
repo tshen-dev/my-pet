@@ -11,6 +11,7 @@ public interface UserMapper {
 
   @Mapping(target = "keycloakId", ignore = true)
   User userDtoToUser(UserDto userDto);
+
   @Mapping(target = "password", ignore = true)
   UserDto userToUserDto(User user);
 }
