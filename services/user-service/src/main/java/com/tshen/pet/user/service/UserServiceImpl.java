@@ -25,8 +25,7 @@ public class UserServiceImpl {
   public UserDto findById(Integer id) {
     return repo.findById(id)
         .map(mapper::userToUserDto)
-        .orElseThrow(() -> new MyPetRuntimeException(HttpStatus.NOT_FOUND,
-            "Could not found user by [userId={}]", id));
+        .orElseThrow(() -> new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id));
   }
 
   @Transactional
@@ -52,7 +51,6 @@ public class UserServiceImpl {
         return mapper.userToUserDto(user);
       } catch (Exception ex) {
         rollbackUserCreation(userName, userCreationProcessDto);
-
         throw ex;
       }
     }
