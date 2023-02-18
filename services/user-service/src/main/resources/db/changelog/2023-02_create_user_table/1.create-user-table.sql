@@ -1,0 +1,11 @@
+--liquibase formatted sql
+--changeset tshen:1
+-- CREATE TABLE public.t_user
+-- (
+--     id          serial4 NOT NULL,
+--     email       varchar(255) NULL,
+--     first_name  varchar(255) NULL,
+--     keycloak_id varchar(255) NULL,
+--     last_name   varchar(255) NULL,
+--     CONSTRAINT t_user_pkey PRIMARY KEY (id)
+-- );

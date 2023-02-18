@@ -35,4 +35,8 @@ publishing {
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+
+  compileOnly 'org.projectlombok:lombok:1.18.24'
+
+  annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }

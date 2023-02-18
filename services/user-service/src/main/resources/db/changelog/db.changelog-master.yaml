@@ -4,6 +4,6 @@ databaseChangeLog:
       author: tshen
       changes:
         - empty: { }
-#  - include:
-#      relativeToChangelogFile: true
-#      file: ...
+  - includeAll:
+      relativeToChangelogFile: true
+      path: 2023-02_create_user_table

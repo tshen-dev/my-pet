@@ -1,7 +1,7 @@
 environment: local
 
 keycloak:
-  enabled: true
+  enabled: false
   realm: ${KEYCLOAK_REALM:MyPetDev}
   auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
   resource: ${KEYCLOAK_CLIENT:my-pet}
@@ -22,7 +22,7 @@ spring:
     password: ${DB_PASSWORD:1234}
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
