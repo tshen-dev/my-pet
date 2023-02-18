@@ -2,6 +2,7 @@ plugins {
   id 'java'
   id 'org.springframework.boot' version '2.7.8'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+  id 'maven-publish'
 }
 
 apply from: '../dependencies.gradle'
@@ -13,6 +14,26 @@ sourceCompatibility = '17'
 repositories {
   mavenCentral()
   mavenLocal()
+}
+
+tasks.register('utilitiesJar', Jar) {
+  dependsOn classes
+  baseName = rootProject.name + '-client'
+  version = project.version
+  includeEmptyDirs = false
+  from sourceSets.main.output
+  include("com\\mypet\\notification\\client\\**")
+}
+
+publishing {
+  publications {
+    utilities(MavenPublication) {
+      artifact utilitiesJar
+      groupId group
+      artifactId rootProject.name + '-client'
+      version project.version
+    }
+  }
 }
 
 dependencies {

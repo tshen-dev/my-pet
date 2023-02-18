@@ -1,6 +1,6 @@
 package com.mypet.notification.service;
 
-import com.mypet.notification.request.NotificationRequest;
+import com.mypet.notification.client.request.NotificationRequest;
 
 public interface NotificationService {
 

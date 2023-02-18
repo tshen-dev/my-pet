@@ -1,4 +1,4 @@
-package com.mypet.notification.request;
+package com.mypet.notification.client.request;
 
 import lombok.Data;
 

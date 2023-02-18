@@ -9,8 +9,8 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-  mavenCentral()
   mavenLocal()
+  mavenCentral()
 }
 
 apply from: "../dependencies.gradle"
@@ -32,6 +32,8 @@ dependencies {
 
   implementation libs.liquibase
   implementation libs.postgresql
+
+  implementation 'com.mypet:notification-service-client:0.0.1-SNAPSHOT'
 
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

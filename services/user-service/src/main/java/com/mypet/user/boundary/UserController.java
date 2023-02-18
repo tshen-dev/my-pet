@@ -2,6 +2,8 @@ package com.mypet.user.boundary;
 
 import com.mypet.user.dto.UserDto;
 import com.mypet.user.service.UserServiceImpl;
+import com.mypet.utils.client.ApiResponse;
+import com.mypet.utils.exceptions.MyPetRuntimeException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -22,21 +24,22 @@ public class UserController {
   private final UserServiceImpl userService;
 
   @PostMapping
-  public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody UserDto userDto) {
     return this.userService.createUser(userDto)
-        .map(i -> ResponseEntity.status(HttpStatus.CREATED).body(i))
-        .orElseGet(() -> ResponseEntity.badRequest().build());
+        .map(i -> ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(i)))
+        .orElseThrow(() -> new MyPetRuntimeException("Exception throws"));
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<UserDto> getUserById(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable Integer id) {
     return this.userService.findById(id)
+        .map(ApiResponse::success)
         .map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @GetMapping
-  public ResponseEntity<List<UserDto>> getAll(Pageable pageable) {
-    return ResponseEntity.ok(this.userService.findAll(pageable));
+  public ResponseEntity<ApiResponse<List<UserDto>>> getAll(Pageable pageable) {
+    return ResponseEntity.ok(ApiResponse.success(this.userService.findAll(pageable)));
   }
 }

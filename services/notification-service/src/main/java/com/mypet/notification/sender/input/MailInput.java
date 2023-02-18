@@ -1,6 +1,6 @@
 package com.mypet.notification.sender.input;
 
-import com.mypet.notification.request.NotificationRequest;
+import com.mypet.notification.client.request.NotificationRequest;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,6 @@
 package com.mypet.notification.boundary;
 
-import com.mypet.notification.request.NotificationRequest;
+import com.mypet.notification.client.request.NotificationRequest;
 import com.mypet.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

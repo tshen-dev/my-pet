@@ -26,7 +26,9 @@ public class UserServiceImpl {
 
   @Transactional
   public Optional<UserDto> createUser(UserDto userDto) {
-    var userFindByUserNameOrEmail = repo.findAllByUserNameOrEmail(userDto.getUserName(), userDto.getEmail());
+    String userName = userDto.getUserName();
+    var userFindByUserNameOrEmail = repo.findAllByUserNameOrEmail(userName, userDto.getEmail());
+
     if (userFindByUserNameOrEmail.isEmpty()) {
       try {
         String keycloakId = keycloakClientService.createUser(userDto);
@@ -35,17 +37,18 @@ public class UserServiceImpl {
         user = repo.save(user);
         keycloakClientService.updateAttribute(keycloakId, "user-id", String.valueOf(user.getId()));
 
-        log.info("User created {}", userDto.getUserName());
+        log.info("User created {}", userName);
 
         return Optional.of(user).map(mapper::userToUserDto);
       } catch (Exception ex) {
-        keycloakClientService.deleteByUserNameQuietly(userDto.getUserName());
-        repo.deleteByUserName(userDto.getUserName());
+        log.info("Create user failed, rollback user {}", userName);
+        keycloakClientService.deleteByUserNameQuietly(userName);
+        repo.deleteByUserName(userName);
 
         throw ex;
       }
     }
-    log.info("Found duplication user userName {} email {}", userDto.getUserName(), userDto.getEmail());
+    log.info("Found duplication user userName {} email {}", userName, userDto.getEmail());
     return Optional.empty();
   }
 

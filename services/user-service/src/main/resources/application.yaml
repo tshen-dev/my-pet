@@ -26,6 +26,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  mvc:
+    log-resolved-exception: false
 logging:
   level:
     root: ${LOG_LEVEL:info}
