@@ -24,9 +24,9 @@ public class UserServiceImpl {
 
   public UserDto findById(Integer id) {
     return repo.findById(id)
-          .map(mapper::userToUserDto)
-          .orElseThrow(() -> new MyPetRuntimeException(HttpStatus.NOT_FOUND,
-              "Could not found user by [userId={}]", id));
+        .map(mapper::userToUserDto)
+        .orElseThrow(() -> new MyPetRuntimeException(HttpStatus.NOT_FOUND,
+            "Could not found user by [userId={}]", id));
   }
 
   @Transactional
@@ -51,9 +51,7 @@ public class UserServiceImpl {
 
         return mapper.userToUserDto(user);
       } catch (Exception ex) {
-        log.info("Create user failed, rollback user {}", userName);
-        keycloakClientService.deleteByUserNameQuietly(userName);
-        repo.deleteByUserName(userName);
+        rollbackUserCreation(userName, userCreationProcessDto);
 
         throw ex;
       }
@@ -78,10 +76,10 @@ public class UserServiceImpl {
 
   public UserDto deactivateUser(Integer id) {
     return repo.findById(id).map(user -> {
-          this.keycloakClientService.deActiveUser(user.getUserName());
-          return mapper.userToUserDto(user);
-        }).orElseThrow(() ->
-          new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id)
-        );
+      this.keycloakClientService.deActiveUser(user.getUserName());
+      return mapper.userToUserDto(user);
+    }).orElseThrow(() ->
+        new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id)
+    );
   }
 }
