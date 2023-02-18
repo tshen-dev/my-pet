@@ -1,7 +1,6 @@
-package com.tshen.pet.user.boundary;
+package com.tshen.pet.user.config;
 
 import org.keycloak.OAuth2Constants;
-import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,19 +13,17 @@ public class BeanConfig {
   private @Value("${keycloak.auth-server-url}") String keycloakServerUrl;
 
   @Bean
-  public Keycloak keycloak() {
-    return KeycloakBuilder.builder()
+  public RealmResource realmsResource() {
+    KeycloakBuilder keycloakBuilder = KeycloakBuilder.builder()
         .serverUrl(keycloakServerUrl)
         .realm("master")
         .grantType(OAuth2Constants.PASSWORD)
         .username("admin")
         .password("admin")
-        .clientId("admin-cli")
-        .build();
-  }
+        .clientId("admin-cli");
 
-  @Bean
-  public RealmResource realmsResource() {
-    return keycloak().realm("MyPetDev");
+    try (var keycloak = keycloakBuilder.build()) {
+      return keycloak.realm("MyPetDev");
+    }
   }
 }

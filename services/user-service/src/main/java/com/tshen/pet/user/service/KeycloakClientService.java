@@ -28,7 +28,7 @@ public class KeycloakClientService {
     user.setEnabled(true);
 
     try (var response = realmResource.users().create(user)) {
-      log.info("Creating user {} in Keycloak", userDto.getUserName());
+      log.info("Creating user [userName={}]", userDto.getUserName());
       var uri = response.getLocation();
       var path = uri.getPath();
       return path.substring(path.lastIndexOf('/') + 1);
@@ -39,14 +39,14 @@ public class KeycloakClientService {
     UserRepresentation user = new UserRepresentation();
     user.singleAttribute(key, value);
     realmResource.users().get(id).update(user);
-    log.info("Updated user attribute {}: {} for {} in Keycloak", key, value, id);
+    log.info("Updated user attribute [{}={}] [keycloakId={}]", id, key, value);
   }
 
   public void deleteByUserName(String userName) {
     realmResource.users().search(userName)
         .forEach(i -> {
           realmResource.users().get(i.getId()).remove();
-          log.info("Removed user {}: {} in Keycloak", i.getId(), i.getUsername());
+          log.info("Removed user [userName={}] [keycloakId={}]", i.getId(), i.getUsername());
         });
   }
 
@@ -60,5 +60,9 @@ public class KeycloakClientService {
     passwordCredentials.setType(CredentialRepresentation.PASSWORD);
     passwordCredentials.setValue(password);
     return passwordCredentials;
+  }
+
+  public void deActiveUser(String userName) {
+    realmResource.users().search(userName).forEach(i -> i.setEnabled(false));
   }
 }

@@ -25,6 +25,6 @@ public class MyPetAdviceController {
   @ExceptionHandler(value = {Exception.class})
   protected ResponseEntity<Object> handleException(Exception ex, WebRequest request) {
     log.error(ex.getMessage(), ex);
-    return ResponseEntity.internalServerError().body(ApiResponse.message(ex.getMessage()));
+    return ResponseEntity.internalServerError().body(ApiResponse.message("Unknown Error, please contact supported!"));
   }
 }
