@@ -6,7 +6,7 @@ plugins {
 
 apply from: "../dependencies.gradle"
 
-group = 'com.mypet'
+group = 'com.tshen.pet'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 

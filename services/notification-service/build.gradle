@@ -7,18 +7,19 @@ plugins {
 
 apply from: '../dependencies.gradle'
 
-group = 'com.mypet'
+group = 'com.tshen.pet'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+def clientJarName = rootProject.name + '-client'
 
 repositories {
   mavenCentral()
   mavenLocal()
 }
 
-tasks.register('utilitiesJar', Jar) {
+tasks.register('clientJar', Jar) {
   dependsOn classes
-  baseName = rootProject.name + '-client'
+  archiveBaseName.set(clientJarName)
   version = project.version
   includeEmptyDirs = false
   from sourceSets.main.output
@@ -28,9 +29,9 @@ tasks.register('utilitiesJar', Jar) {
 publishing {
   publications {
     utilities(MavenPublication) {
-      artifact utilitiesJar
+      artifact clientJar
       groupId group
-      artifactId rootProject.name + '-client'
+      artifactId clientJarName
       version project.version
     }
   }
