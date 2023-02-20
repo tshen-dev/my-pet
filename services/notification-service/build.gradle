@@ -73,11 +73,13 @@ dependencies {
   testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
   testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
   testImplementation "org.springframework.cloud:spring-cloud-contract-stub-runner"
+  testImplementation 'org.mockito:mockito-inline:5.1.1'
   testImplementation 'junit:junit:4.13.2'
 }
 
 test {
   useJUnitPlatform()
+  finalizedBy contractTest
 }
 
 contractTest {
@@ -87,8 +89,7 @@ contractTest {
 contracts {
   contractsDslDir = file("src/test/resources/contracts")
   testFramework = "JUNIT5"
-  packageWithBaseClasses = "com.tshen.pet.notification.contracts"
-  baseClassForTests = "com.tshen.pet.notification.contracts."
+  baseClassForTests = "com.tshen.pet.notification.contracts.ContractVerifierBase"
 }
 
 task stubsJar(type: Jar) {

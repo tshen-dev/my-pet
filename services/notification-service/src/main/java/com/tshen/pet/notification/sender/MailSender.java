@@ -1,6 +1,7 @@
 package com.tshen.pet.notification.sender;
 
 import com.tshen.pet.notification.sender.input.MailInput;
+import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.Multipart;
@@ -61,6 +62,7 @@ public class MailSender implements NotificationSender<MailInput> {
       log.info("Send email success to: {}", input.getTo());
     } catch (Exception ex) {
       log.error("Could not send mail", ex);
+      throw new MyPetRuntimeException();
     }
   }
 }

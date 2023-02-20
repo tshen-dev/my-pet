@@ -19,6 +19,18 @@ public class ApiResponse<T> {
     return of("SUCCESS", data);
   }
 
+  public static <U> ApiResponse<U> success() {
+    return success(null);
+  }
+
+  public static <U> ApiResponse<U> error(U data) {
+    return of("ERROR", data);
+  }
+
+  public static <U> ApiResponse<U> error() {
+    return error(null);
+  }
+
   public static <U> ApiResponse<U> message(String message) {
     return of(message, null);
   }

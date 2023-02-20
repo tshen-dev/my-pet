@@ -2,8 +2,10 @@ package com.tshen.pet.notification.sender.input;
 
 import com.tshen.pet.notification.client.request.NotificationRequest;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MailInput {
 
   private String from;
