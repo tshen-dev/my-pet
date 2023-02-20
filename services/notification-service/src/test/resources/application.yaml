@@ -1,0 +1,22 @@
+environment: local
+
+keycloak:
+  enabled: false
+  realm: ${KEYCLOAK_REALM:MyPetDev}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
+  resource: ${KEYCLOAK_CLIENT:my-pet}
+  bearer-only: true
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: notification-service
+  profiles:
+    active: ${ACTIVE_PROFILES:}
+  config:
+    import: optional:configserver:${SPRING_CLOUD_CONFIG_URL:http://localhost:8080}
+logging:
+  level:
+    root: ${LOG_LEVEL:info}

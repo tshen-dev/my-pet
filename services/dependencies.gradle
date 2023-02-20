@@ -18,4 +18,8 @@ ext {
       jakartaActivationApi: 'jakarta.activation:jakarta.activation-api:2.1.1',
       jakartaMailApi: 'jakarta.mail:jakarta.mail-api:2.1.1'
   ]
+
+  testLibs = [
+      springBootStarterTest: 'org.springframework.boot:spring-boot-starter-test'
+  ]
 }

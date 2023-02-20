@@ -46,10 +46,16 @@ dependencies {
 
   annotationProcessor libs.lombok
   annotationProcessor libs.mapstructProcessor
+
+  testImplementation testLibs.springBootStarterTest
 }
 
 dependencyManagement {
   imports {
     mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
   }
+}
+
+test {
+  useJUnitPlatform()
 }

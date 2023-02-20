@@ -3,6 +3,7 @@ plugins {
   id 'org.springframework.boot' version '2.7.8'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
   id 'maven-publish'
+  id "org.springframework.cloud.contract" version "3.1.5"
 }
 
 apply from: '../dependencies.gradle'
@@ -15,10 +16,15 @@ def clientJarName = rootProject.name + '-client'
 repositories {
   mavenCentral()
   mavenLocal()
+  maven { url "https://repo.spring.io/snapshot" }
+  maven { url "https://repo.spring.io/milestone" }
+  maven { url "https://repo.spring.io/release" }
+  maven { url "https://plugins.gradle.org/m2/" }
 }
 
 tasks.register('clientJar', Jar) {
   dependsOn classes
+  shouldRunAfter {build}
   archiveBaseName.set(clientJarName)
   version = project.version
   includeEmptyDirs = false
@@ -34,8 +40,14 @@ publishing {
       artifactId clientJarName
       version project.version
     }
+    stubs(MavenPublication) {
+      artifactId "${project.name}"
+      artifact verifierStubsJar
+    }
   }
 }
+
+build.finalizedBy publishToMavenLocal
 
 dependencies {
   implementation project(":my-pet-utils")
@@ -56,6 +68,50 @@ dependencies {
 
   compileOnly libs.lombok
   annotationProcessor libs.lombok
+
+  testImplementation testLibs.springBootStarterTest
+  testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+  testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
+  testImplementation "org.springframework.cloud:spring-cloud-contract-stub-runner"
+  testImplementation 'junit:junit:4.13.2'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+contractTest {
+  useJUnitPlatform()
+}
+
+contracts {
+  contractsDslDir = file("src/test/resources/contracts")
+  testFramework = "JUNIT5"
+  packageWithBaseClasses = "com.tshen.pet.notification.contracts"
+  baseClassForTests = "com.tshen.pet.notification.contracts."
+}
+
+task stubsJar(type: Jar) {
+  into("/") {
+    include('**/*.groovy')
+    from("${project.rootDir}/src/main/resources/contracts")
+  }
+}
+
+contractTest {
+  useJUnitPlatform()
+  testLogging {
+    exceptionFormat = 'full'
+  }
+  afterSuite { desc, result ->
+    if (!desc.parent) {
+      println "Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+      boolean skipTests = Boolean.parseBoolean(project.findProperty('SKIP_TESTS') ?: "false" as String)
+      if (result.testCount == 0 && !skipTests) {
+        throw new IllegalStateException("No tests were found. Failing the build")
+      }
+    }
+  }
 }
 
 dependencyManagement {

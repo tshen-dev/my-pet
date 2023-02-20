@@ -1,4 +1,4 @@
-package com.tshen.pet.notification.boundary;
+package com.tshen.pet.notification.controller;
 
 import com.tshen.pet.notification.client.request.NotificationRequest;
 import com.tshen.pet.notification.service.NotificationService;
