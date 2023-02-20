@@ -79,7 +79,6 @@ dependencies {
 
 test {
   useJUnitPlatform()
-  finalizedBy contractTest
 }
 
 contractTest {

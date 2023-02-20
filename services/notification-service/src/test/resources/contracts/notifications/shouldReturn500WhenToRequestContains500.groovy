@@ -11,10 +11,10 @@ Contract.make {
       contentType(applicationJson())
     }
     body(
-        to: "tshen.petproject@gmail.com"
+        to: $(consumer(regex('.*500.*')), producer("tshen.petproject_500@gmail.com"))
     )
   }
   response {
-    status 200
+    status 500
   }
 }
