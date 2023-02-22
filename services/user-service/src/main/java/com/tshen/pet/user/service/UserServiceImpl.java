@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import com.tshen.pet.user.dto.UserCreationProcessDto;
 import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.mapper.UserMapper;
+import com.tshen.pet.user.model.User;
 import com.tshen.pet.user.repo.UserRepo;
 import com.tshen.pet.user.webclient.NotificationClient;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
@@ -29,9 +30,7 @@ public class UserServiceImpl {
   private final NotificationClient notificationClient;
 
   public UserDto findById(Integer id) {
-    return repo.findById(id)
-        .map(mapper::userToUserDto)
-        .orElseThrow(() -> new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id));
+    return mapper.userToUserDto(findByIdThrowIfMissing(id));
   }
 
   @Transactional
@@ -89,11 +88,15 @@ public class UserServiceImpl {
   }
 
   public UserDto deactivateUser(Integer id) {
-    return repo.findById(id).map(user -> {
-      this.keycloakClientService.deActiveUser(user.getUserName());
-      return mapper.userToUserDto(user);
-    }).orElseThrow(() ->
-        new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id)
-    );
+    var user = findByIdThrowIfMissing(id);
+    this.keycloakClientService.deActiveUser(user.getUserName());
+    log.info("De-active user [userName={}]", user.getUserName());
+    return mapper.userToUserDto(user);
+  }
+
+  private User findByIdThrowIfMissing(Integer id) {
+    return repo.findById(id)
+        .orElseThrow(() ->
+            new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id));
   }
 }
