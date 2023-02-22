@@ -70,10 +70,6 @@ test {
   useJUnitPlatform()
 }
 
-contractTest {
-  useJUnitPlatform()
-}
-
 contracts {
   contractsDslDir = file("src/test/resources/contracts")
   testFramework = "JUNIT5"

@@ -1,8 +1,19 @@
+keycloak:
+  enabled: false
+  realm: ${KEYCLOAK_REALM:MyPetDev}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
+  resource: ${KEYCLOAK_CLIENT:my-pet}
+  bearer-only: true
+  admin-user: ${KEYCLOAK_ADMIN_USER:admin}
+  admin-password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
 
 feign-client:
   notification-service:
     url: localhost:8082
 spring:
+  cloud:
+    config:
+      enabled: false
   datasource:
     url: jdbc:h2:mem:test
   jpa:

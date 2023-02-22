@@ -3,21 +3,45 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
   id "org.springframework.cloud.contract" version "3.1.5"
   id 'java'
+  id 'maven-publish'
 }
 
 group = 'com.tshen.pet'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
-
-ext {
-  notificationServiceClientVersion = '0.0.1-SNAPSHOT'
-}
+def clientJarName = rootProject.name + '-client'
 
 repositories {
   mavenLocal()
   mavenCentral()
 }
 
+tasks.register('clientJar', Jar) {
+  dependsOn classes
+  shouldRunAfter {build}
+  archiveBaseName.set(clientJarName)
+  version = project.version
+  includeEmptyDirs = false
+  from sourceSets.main.output
+  include("com\\tshen\\pet\\user\\client\\**")
+}
+
+publishing {
+  publications {
+    utilities(MavenPublication) {
+      artifact clientJar
+      groupId group
+      artifactId clientJarName
+      version project.version
+    }
+    stubs(MavenPublication) {
+      artifactId "${project.name}"
+      artifact verifierStubsJar
+    }
+  }
+}
+
+build.finalizedBy publishToMavenLocal
 
 dependencies {
   apply from: "../dependencies.gradle"
