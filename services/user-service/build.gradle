@@ -23,24 +23,24 @@ dependencies {
 
   implementation project(":my-pet-utils")
 
-  implementation 'org.springframework.boot:spring-boot-starter'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'org.springframework.security:spring-security-config'
-  implementation 'org.springframework.cloud:spring-cloud-starter-config'
+  implementation libs.springStarter
+  implementation libs.springStarterWeb
+  implementation libs.springStarterConfig
 
   implementation libs.keycloakSpringBootStarter
   implementation libs.keycloakAdminClient
 
   implementation libs.mapstruct
 
-  implementation libs.liquibase
+  implementation libs.springDataJpa
   implementation libs.postgresql
+  implementation libs.liquibase
 
-  implementation "com.tshen.pet:notification-service-client:$notificationServiceClientVersion"
+  implementation libs.springOpenfeign
 
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  implementation "com.tshen.pet:notification-service-client:+"
+
+  developmentOnly devLibs.springDevTools
 
   compileOnly libs.lombok
 
@@ -48,6 +48,9 @@ dependencies {
   annotationProcessor libs.mapstructProcessor
 
   testImplementation testLibs.springBootStarterTest
+  testImplementation "com.h2database:h2"
+  testImplementation testLibs.springContractWiremock
+  testImplementation testLibs.springContractStubRunner
 }
 
 dependencyManagement {

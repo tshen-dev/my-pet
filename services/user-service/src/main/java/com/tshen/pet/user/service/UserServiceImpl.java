@@ -1,9 +1,14 @@
 package com.tshen.pet.user.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.tshen.pet.utils.MethodUtils.processValidate;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import com.tshen.pet.user.dto.UserCreationProcessDto;
 import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.mapper.UserMapper;
 import com.tshen.pet.user.repo.UserRepo;
+import com.tshen.pet.user.webclient.NotificationClient;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,7 @@ public class UserServiceImpl {
   private final UserMapper mapper;
   private final UserRepo repo;
   private final KeycloakClientService keycloakClientService;
+  private final NotificationClient notificationClient;
 
   public UserDto findById(Integer id) {
     return repo.findById(id)
@@ -30,6 +36,7 @@ public class UserServiceImpl {
 
   @Transactional
   public UserDto createUser(UserDto userDto) {
+    validateUserCreationDto(userDto);
     String userName = userDto.getUserName();
     var userFindByUserNameOrEmail = repo.findAllByUserNameOrEmail(userName, userDto.getEmail());
 
@@ -47,7 +54,6 @@ public class UserServiceImpl {
         keycloakClientService.updateAttribute(keycloakId, "user-id", String.valueOf(user.getId()));
 
         log.info("User created [userName={}]", userName);
-
         return mapper.userToUserDto(user);
       } catch (Exception ex) {
         rollbackUserCreation(userName, userCreationProcessDto);
@@ -56,6 +62,16 @@ public class UserServiceImpl {
     }
     log.info("Found duplication user [userName={}] [email={}]", userName, userDto.getEmail());
     throw new MyPetRuntimeException(HttpStatus.CONFLICT, "Username/email already existed!");
+  }
+
+  private static void validateUserCreationDto(UserDto userDto) {
+    processValidate(() -> {
+      checkArgument(isNotBlank(userDto.getFirstName()), "FirstName should not be empty");
+      checkArgument(isNotBlank(userDto.getLastName()), "LastName should not be empty");
+      checkArgument(isNotBlank(userDto.getEmail()), "Email should not be empty");
+      checkArgument(isNotBlank(userDto.getUserName()), "UserName should not be empty");
+      checkArgument(isNotBlank(userDto.getPassword()), "Password should not be empty");
+    });
   }
 
   private void rollbackUserCreation(String userName, UserCreationProcessDto userCreationProcessDto) {

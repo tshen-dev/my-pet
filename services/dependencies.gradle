@@ -3,9 +3,16 @@ ext {
   springCloudVersion = "2021.0.5"
 
   libs = [
+      springStarter: 'org.springframework.boot:spring-boot-starter',
+      springStarterWeb: 'org.springframework.boot:spring-boot-starter-web',
+      springStarterSecurity: 'org.springframework.boot:spring-boot-starter-security',
+      springSecurityConfig: 'org.springframework.security:spring-security-config',
+      springStarterConfig: 'org.springframework.cloud:spring-cloud-starter-config',
+
       lombok: 'org.projectlombok:lombok:1.18.24',
 
       postgresql: 'org.postgresql:postgresql:42.5.3',
+      springDataJpa: 'org.springframework.boot:spring-boot-starter-data-jpa',
       liquibase: 'org.liquibase:liquibase-core:4.19.0',
 
       mapstruct: 'org.mapstruct:mapstruct:1.5.3.Final',
@@ -14,12 +21,22 @@ ext {
       keycloakSpringBootStarter: "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion",
       keycloakAdminClient: "org.keycloak:keycloak-admin-client:$keycloakVersion",
 
+      springOpenfeign: "org.springframework.cloud:spring-cloud-starter-openfeign",
+
       angusMail: 'org.eclipse.angus:angus-mail:2.0.1',
       jakartaActivationApi: 'jakarta.activation:jakarta.activation-api:2.1.1',
       jakartaMailApi: 'jakarta.mail:jakarta.mail-api:2.1.1'
   ]
 
   testLibs = [
-      springBootStarterTest: 'org.springframework.boot:spring-boot-starter-test'
+      springBootStarterTest: 'org.springframework.boot:spring-boot-starter-test',
+      springContractVerifier: 'org.springframework.cloud:spring-cloud-starter-contract-verifier',
+      mockitoInline: 'org.mockito:mockito-inline',
+      springContractWiremock: "org.springframework.cloud:spring-cloud-contract-wiremock",
+      springContractStubRunner: "org.springframework.cloud:spring-cloud-contract-stub-runner"
+  ]
+
+  devLibs = [
+      springDevTools: 'org.springframework.boot:spring-boot-devtools'
   ]
 }

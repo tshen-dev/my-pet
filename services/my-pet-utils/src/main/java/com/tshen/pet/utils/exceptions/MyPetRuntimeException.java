@@ -8,13 +8,17 @@ public class MyPetRuntimeException extends RuntimeException implements IMyPetExc
   private final HttpStatus httpStatus;
 
   public MyPetRuntimeException() {
-    super("Unknown Error, please contact supported!");
-    httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    this("Unknown Error, please contact supported!");
   }
 
   public MyPetRuntimeException(HttpStatus httpStatus, String message, Object... args) {
     super(MessageFormatter.arrayFormat(message, args).getMessage());
     this.httpStatus = httpStatus;
+  }
+
+  public MyPetRuntimeException(String message, Object... args) {
+    super(MessageFormatter.arrayFormat(message, args).getMessage());
+    this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
   }
 
   @Override

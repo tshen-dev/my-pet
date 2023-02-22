@@ -3,7 +3,7 @@ package contracts.notifications
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-  description "should return 500 when request dto have to is 500"
+  description "should return 500 when request dto have .to contains 500"
   request {
     method POST()
     url("/notifications")
@@ -16,5 +16,8 @@ Contract.make {
   }
   response {
     status 500
+    body(
+        message: "Unknown Error, please contact supported!"
+    )
   }
 }

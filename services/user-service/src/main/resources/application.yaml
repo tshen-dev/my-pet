@@ -1,5 +1,3 @@
-environment: local
-
 keycloak:
   enabled: false
   realm: ${KEYCLOAK_REALM:MyPetDev}
@@ -28,6 +26,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   mvc:
     log-resolved-exception: false
+feign-client:
+  notification-service:
+    url: ${NOTIFICATION_SERVICE_URL:http://localhost:8082}
 logging:
   level:
     root: ${LOG_LEVEL:info}

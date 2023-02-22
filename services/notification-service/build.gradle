@@ -1,9 +1,9 @@
 plugins {
-  id 'java'
   id 'org.springframework.boot' version '2.7.8'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-  id 'maven-publish'
   id "org.springframework.cloud.contract" version "3.1.5"
+  id 'java'
+  id 'maven-publish'
 }
 
 apply from: '../dependencies.gradle'
@@ -16,10 +16,6 @@ def clientJarName = rootProject.name + '-client'
 repositories {
   mavenCentral()
   mavenLocal()
-  maven { url "https://repo.spring.io/snapshot" }
-  maven { url "https://repo.spring.io/milestone" }
-  maven { url "https://repo.spring.io/release" }
-  maven { url "https://plugins.gradle.org/m2/" }
 }
 
 tasks.register('clientJar', Jar) {
@@ -29,7 +25,7 @@ tasks.register('clientJar', Jar) {
   version = project.version
   includeEmptyDirs = false
   from sourceSets.main.output
-  include("com\\mypet\\notification\\client\\**")
+  include("com\\tshen\\pet\\notification\\client\\**")
 }
 
 publishing {
@@ -52,29 +48,22 @@ build.finalizedBy publishToMavenLocal
 dependencies {
   implementation project(":my-pet-utils")
 
-  implementation 'org.springframework.boot:spring-boot-starter'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation 'org.springframework.security:spring-security-config'
-  implementation 'org.springframework.cloud:spring-cloud-starter-config'
-
-  implementation libs.keycloakSpringBootStarter
+  implementation libs.springStarter
+  implementation libs.springStarterWeb
+  implementation libs.springStarterConfig
 
   implementation libs.angusMail
   implementation libs.jakartaActivationApi
   implementation libs.jakartaMailApi
 
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  developmentOnly devLibs.springDevTools
 
   compileOnly libs.lombok
   annotationProcessor libs.lombok
 
   testImplementation testLibs.springBootStarterTest
-  testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
-  testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
-  testImplementation "org.springframework.cloud:spring-cloud-contract-stub-runner"
-  testImplementation 'org.mockito:mockito-inline:5.1.1'
-  testImplementation 'junit:junit:4.13.2'
+  testImplementation testLibs.springContractVerifier
+  testImplementation testLibs.mockitoInline
 }
 
 test {

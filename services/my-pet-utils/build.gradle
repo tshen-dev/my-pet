@@ -16,9 +16,13 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation libs.springStarterSecurity
   implementation libs.keycloakSpringBootStarter
 
   compileOnly libs.lombok
   annotationProcessor libs.lombok
+}
+
+test {
+  useJUnitPlatform()
 }

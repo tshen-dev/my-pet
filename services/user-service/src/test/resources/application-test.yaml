@@ -1,0 +1,10 @@
+
+feign-client:
+  notification-service:
+    url: localhost:8082
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
