@@ -21,8 +21,6 @@ import com.tshen.pet.user.service.KeycloakClientService;
 import com.tshen.pet.utils.client.ApiResponse;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +38,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @AutoConfigureStubRunner(
     stubsMode = StubRunnerProperties.StubsMode.LOCAL,
     ids = "com.tshen.pet:notification-service:+:stubs:8082")
-@TestInstance(Lifecycle.PER_CLASS)
 class UserControllerIT {
 
   @Autowired MockMvc mvc;
@@ -49,7 +46,7 @@ class UserControllerIT {
   @Autowired ObjectMapper objectMapper;
 
   @Test
-  void POST_users_givenUserDtoMissingField_shouldReturn400WithMessage() throws Exception {
+  void whenPOST_users_givenUserDtoMissingField_shouldReturn400WithMessage() throws Exception {
     UserDto userDtoInput = UserDto.builder().build();
 
     MockHttpServletRequestBuilder requestBuilder = post("/users")
@@ -64,18 +61,18 @@ class UserControllerIT {
   @Test
   void testCreatedUser_findById_findAll_deActiveUser() throws Exception {
     // Create user
-    var userDb = giveUserDto_whenPOST_users_shouldCreateKeycloakUser_saveUserToDB_return201AndUserInfo();
+    var userDb = whenPOST_users_givenUserDto_thenCreateKeycloakUser_saveUserToDB_return201AndUserInfo();
     // Create with user duplicate mail
-    giveUserDtoDuplicateEmail_whenPOST_users_shouldReturn409WithMessage();
+    whenPOST_users_givenUserDtoDuplicateEmail_thenReturn409WithMessage();
     // Find user by id
-    giveUserId_whenGET_users_withId_shouldReturn200AndUserInfo(userDb);
+    whenGET_users_withId_givenUserId_thenReturn200AndUserInfo(userDb);
     // Find all user
-    whenGET_users_shouldReturn200AndListUserInfo(userDb);
+    whenGET_users_thenReturn200AndListUserInfo(userDb);
     // De-active user
-    giveUserId_whenDELETE_users_withId_shouldReturn200AndUserInfo(userDb);
+    whenDELETE_users_withId_givenUserId_thenReturn200AndUserInfo(userDb);
   }
 
-  private void giveUserId_whenDELETE_users_withId_shouldReturn200AndUserInfo(User userDb) throws Exception {
+  private void whenDELETE_users_withId_givenUserId_thenReturn200AndUserInfo(User userDb) throws Exception {
     mvc.perform(delete("/users/{id}", String.valueOf(userDb.getId())))
         .andExpect(status().isOk())
         .andExpectAll(
@@ -86,7 +83,7 @@ class UserControllerIT {
     verify(keycloakClientService).deActiveUser(userDb.getUserName());
   }
 
-  private void whenGET_users_shouldReturn200AndListUserInfo(User userDb) throws Exception {
+  private void whenGET_users_thenReturn200AndListUserInfo(User userDb) throws Exception {
     mvc.perform(get("/users"))
         .andExpect(status().isOk())
         .andExpectAll(
@@ -96,7 +93,7 @@ class UserControllerIT {
             jsonPath("$.data.[0].email", is(userDb.getEmail())));
   }
 
-  private void giveUserId_whenGET_users_withId_shouldReturn200AndUserInfo(User userDb) throws Exception {
+  private void whenGET_users_withId_givenUserId_thenReturn200AndUserInfo(User userDb) throws Exception {
     mvc.perform(get("/users/{id}", String.valueOf(userDb.getId())))
         .andExpect(status().isOk())
         .andExpectAll(
@@ -106,7 +103,7 @@ class UserControllerIT {
             jsonPath("$.data.email", is(userDb.getEmail())));
   }
 
-  private User giveUserDto_whenPOST_users_shouldCreateKeycloakUser_saveUserToDB_return201AndUserInfo() throws Exception {
+  private User whenPOST_users_givenUserDto_thenCreateKeycloakUser_saveUserToDB_return201AndUserInfo() throws Exception {
     var keycloakId = UUID.randomUUID().toString();
     when(keycloakClientService.createUser(any())).thenReturn(keycloakId);
 
@@ -144,7 +141,7 @@ class UserControllerIT {
     return userDb;
   }
 
-  private void giveUserDtoDuplicateEmail_whenPOST_users_shouldReturn409WithMessage() throws Exception {
+  private void whenPOST_users_givenUserDtoDuplicateEmail_thenReturn409WithMessage() throws Exception {
     UserDto userDtoInput = UserDto.builder()
         .email("tshen.petproject@gmail.com")
         .firstName("Hen")

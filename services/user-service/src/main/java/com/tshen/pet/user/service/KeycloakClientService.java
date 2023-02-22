@@ -1,7 +1,5 @@
 package com.tshen.pet.user.service;
 
-import static com.tshen.pet.utils.MethodUtils.processQuietly;
-
 import com.tshen.pet.user.dto.UserDto;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -48,10 +46,6 @@ public class KeycloakClientService {
           realmResource.users().get(i.getId()).remove();
           log.info("Removed user [userName={}] [keycloakId={}]", i.getId(), i.getUsername());
         });
-  }
-
-  public void deleteByUserNameQuietly(String userName) {
-    processQuietly(() -> deleteByUserName(userName));
   }
 
   private static CredentialRepresentation createPasswordCredentials(String password) {

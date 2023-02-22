@@ -23,7 +23,7 @@ class KeycloakClientServiceTest {
   private final KeycloakClientService instance = new KeycloakClientService(realmResource);
 
   @Test
-  void createUser_returnUserIdFromKeycloak() {
+  void whenCreateUser_thenReturnUserIdFromKeycloak() {
     var response = Response.created(UriBuilder.fromUri("http://keycloak/.../1234-1234").build()).build();
     when(realmResource.users().create(any())).thenReturn(response);
 
@@ -34,7 +34,7 @@ class KeycloakClientServiceTest {
   }
 
   @Test
-  void updateAttribute_callUpdateToKeycloak() {
+  void whenUpdateAttribute_thenCallUpdateToUserResourceKeycloak() {
     var userMock = mock(UserResource.class);
     when(realmResource.users().get("user-id")).thenReturn(userMock);
 
@@ -44,18 +44,18 @@ class KeycloakClientServiceTest {
   }
 
   @Test
-  void deleteByUserNameQuietly_callRemoveToKeycloak() {
+  void whenDeleteByUserName_thenCallRemoveToUserResourceKeycloak() {
     var userMock = mock(UserResource.class);
     when(realmResource.users().search(anyString())).thenReturn(List.of(new UserRepresentation()));
     when(realmResource.users().get(any())).thenReturn(userMock);
 
-    instance.deleteByUserNameQuietly("user-name");
+    instance.deleteByUserName("user-name");
 
     verify(userMock).remove();
   }
 
   @Test
-  void deActiveUser_callSetEnabledToKeycloak() {
+  void whenDeActiveUser_thenCallSetEnabledToUserResourceKeycloak() {
     var userRepresentationMock = mock(UserRepresentation.class);
     when(realmResource.users().search(anyString())).thenReturn(List.of(userRepresentationMock));
 

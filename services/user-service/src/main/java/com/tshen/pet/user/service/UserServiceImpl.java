@@ -1,6 +1,7 @@
 package com.tshen.pet.user.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.tshen.pet.utils.MethodUtils.processQuietly;
 import static com.tshen.pet.utils.MethodUtils.processValidate;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -9,7 +10,6 @@ import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.mapper.UserMapper;
 import com.tshen.pet.user.model.User;
 import com.tshen.pet.user.repo.UserRepo;
-import com.tshen.pet.user.webclient.NotificationClient;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,6 @@ public class UserServiceImpl {
   private final UserMapper mapper;
   private final UserRepo repo;
   private final KeycloakClientService keycloakClientService;
-  private final NotificationClient notificationClient;
 
   public UserDto findById(Integer id) {
     return mapper.userToUserDto(findByIdThrowIfMissing(id));
@@ -55,6 +54,7 @@ public class UserServiceImpl {
         log.info("User created [userName={}]", userName);
         return mapper.userToUserDto(user);
       } catch (Exception ex) {
+        log.info("Create user failed, rollback user [userName={}]", userName);
         rollbackUserCreation(userName, userCreationProcessDto);
         throw ex;
       }
@@ -74,12 +74,11 @@ public class UserServiceImpl {
   }
 
   private void rollbackUserCreation(String userName, UserCreationProcessDto userCreationProcessDto) {
-    log.info("Create user failed, rollback user [userName={}]", userName);
     if (userCreationProcessDto.isCreatedInSystem()) {
       repo.deleteByUserName(userName);
     }
     if (userCreationProcessDto.isCreatedInKeycloak()) {
-      keycloakClientService.deleteByUserNameQuietly(userName);
+      processQuietly(() -> keycloakClientService.deleteByUserName(userName));
     }
   }
 
