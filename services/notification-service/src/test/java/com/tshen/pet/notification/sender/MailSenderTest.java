@@ -15,7 +15,7 @@ class MailSenderTest {
   private final MailSender instance = new MailSender();
 
   @Test
-  void send_callTransportToSendMessage() {
+  void whenSend_givenMailInput_ThenCallTransportToSendMessage() {
     try (MockedStatic<Transport> transportMockedStatic = Mockito.mockStatic(Transport.class)) {
       MailInput mailInput = new MailInput();
       mailInput.setTo("tshen.petproject@gmail.com");
@@ -27,7 +27,7 @@ class MailSenderTest {
   }
 
   @Test
-  void send_callTransportToSendMessageWithExceptionOccur_rethrowMyPetException() {
+  void whenSend_givenExceptionOccurWhenTransportSend_thenRethrowMyPetException() {
     try (MockedStatic<Transport> transportMockedStatic = Mockito.mockStatic(Transport.class)) {
       MailInput mailInput = new MailInput();
       mailInput.setTo("tshen.petproject@gmail.com");

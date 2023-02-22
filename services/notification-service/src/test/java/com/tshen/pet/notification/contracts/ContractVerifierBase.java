@@ -2,8 +2,7 @@ package com.tshen.pet.notification.contracts;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
 
-import com.tshen.pet.notification.contracts.controller.stubs.NotificationServiceStubs;
-import com.tshen.pet.notification.controller.NotificationController;
+import com.tshen.pet.notification.contracts.controller.stubs.NotificationControllerStub;
 import com.tshen.pet.utils.controller.MyPetAdviceController;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +14,6 @@ public abstract class ContractVerifierBase {
   @BeforeEach
   public void setup() {
     standaloneSetup(MockMvcBuilders.standaloneSetup(new MyPetAdviceController(),
-        new NotificationController(new NotificationServiceStubs())));
+        new NotificationControllerStub()));
   }
 }

@@ -4,6 +4,8 @@ keycloak:
   auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
   resource: ${KEYCLOAK_CLIENT:my-pet}
   bearer-only: true
+  admin-user: ${KEYCLOAK_ADMIN_USER:admin}
+  admin-password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
 
 server:
   port: 8081

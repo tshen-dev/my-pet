@@ -32,8 +32,11 @@ ext {
       springBootStarterTest: 'org.springframework.boot:spring-boot-starter-test',
       springContractVerifier: 'org.springframework.cloud:spring-cloud-starter-contract-verifier',
       mockitoInline: 'org.mockito:mockito-inline',
+
+      h2database: "com.h2database:h2",
+
       springContractWiremock: "org.springframework.cloud:spring-cloud-contract-wiremock",
-      springContractStubRunner: "org.springframework.cloud:spring-cloud-contract-stub-runner"
+      springContractStubRunner: "org.springframework.cloud:spring-cloud-contract-stub-runner",
   ]
 
   devLibs = [

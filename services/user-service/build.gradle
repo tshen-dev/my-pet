@@ -1,7 +1,8 @@
 plugins {
-  id 'java'
   id 'org.springframework.boot' version '2.7.8'
   id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+  id "org.springframework.cloud.contract" version "3.1.5"
+  id 'java'
 }
 
 group = 'com.tshen.pet'
@@ -48,7 +49,8 @@ dependencies {
   annotationProcessor libs.mapstructProcessor
 
   testImplementation testLibs.springBootStarterTest
-  testImplementation "com.h2database:h2"
+  testImplementation testLibs.h2database
+  testImplementation testLibs.springContractVerifier
   testImplementation testLibs.springContractWiremock
   testImplementation testLibs.springContractStubRunner
 }
@@ -61,4 +63,33 @@ dependencyManagement {
 
 test {
   useJUnitPlatform()
+}
+
+contracts {
+  contractsDslDir = file("src/test/resources/contracts")
+  testFramework = "JUNIT5"
+  baseClassForTests = "com.tshen.pet.user.contracts.ContractVerifierBase"
+}
+
+task stubsJar(type: Jar) {
+  into("/") {
+    include('**/*.groovy')
+    from("${project.rootDir}/src/main/resources/contracts")
+  }
+}
+
+contractTest {
+  useJUnitPlatform()
+  testLogging {
+    exceptionFormat = 'full'
+  }
+  afterSuite { desc, result ->
+    if (!desc.parent) {
+      println "Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+      boolean skipTests = Boolean.parseBoolean(project.findProperty('SKIP_TESTS') ?: "false" as String)
+      if (result.testCount == 0 && !skipTests) {
+        throw new IllegalStateException("No tests were found. Failing the build")
+      }
+    }
+  }
 }

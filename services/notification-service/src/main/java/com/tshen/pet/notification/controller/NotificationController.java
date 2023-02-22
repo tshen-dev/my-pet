@@ -1,7 +1,7 @@
 package com.tshen.pet.notification.controller;
 
 import com.tshen.pet.notification.client.request.NotificationRequest;
-import com.tshen.pet.notification.service.NotificationService;
+import com.tshen.pet.notification.service.INotificationService;
 import com.tshen.pet.utils.client.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NotificationController {
 
-  private final NotificationService notificationService;
+  private final INotificationService notificationService;
 
   @PostMapping
   public ResponseEntity<ApiResponse<String>> sendNotification(@RequestBody NotificationRequest request) {

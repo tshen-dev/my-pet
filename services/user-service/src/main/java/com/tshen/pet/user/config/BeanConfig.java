@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
   private @Value("${keycloak.auth-server-url}") String keycloakServerUrl;
+  private @Value("${keycloak.realm}") String keycloakRealm;
+  private @Value("${keycloak.admin-user}") String keycloakAdminUser;
+  private @Value("${keycloak.admin-password}") String keycloakAdminPassword;
 
   @Bean
   public RealmResource realmsResource() {
@@ -18,12 +21,12 @@ public class BeanConfig {
         .serverUrl(keycloakServerUrl)
         .realm("master")
         .grantType(OAuth2Constants.PASSWORD)
-        .username("admin")
-        .password("admin")
+        .username(keycloakAdminUser)
+        .password(keycloakAdminPassword)
         .clientId("admin-cli");
 
     try (var keycloak = keycloakBuilder.build()) {
-      return keycloak.realm("MyPetDev");
+      return keycloak.realm(keycloakRealm);
     }
   }
 }
