@@ -7,6 +7,7 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
+    environment: Dev
     steps:
       - run: echo "${{ vars.USER }}"
 
