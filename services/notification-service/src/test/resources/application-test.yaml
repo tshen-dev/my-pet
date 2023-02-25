@@ -2,6 +2,8 @@ keycloak:
   enabled: false
 
 spring:
+  servlet:
+    context-path: /notification-service
   cloud:
     config:
       enabled: false

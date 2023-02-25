@@ -19,6 +19,7 @@ public class NotificationService {
     try {
       notificationClient.sendNotification(request);
     } catch (FeignClientException feignClientException) {
+      //TODO: handle exception
       throw new MyPetRuntimeException("Could not send notification");
     }
   }

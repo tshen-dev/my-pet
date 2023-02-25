@@ -18,6 +18,7 @@ import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.model.User;
 import com.tshen.pet.user.repo.UserRepo;
 import com.tshen.pet.user.service.KeycloakClientService;
+import com.tshen.pet.user.service.NotificationService;
 import com.tshen.pet.utils.client.ApiResponse;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -25,25 +26,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
-import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @ActiveProfiles(profiles = "test")
-@AutoConfigureStubRunner(
-    stubsMode = StubRunnerProperties.StubsMode.LOCAL,
-    ids = "com.tshen.pet:notification-service:+:stubs:8082")
+@AutoConfigureMockMvc
+@AutoConfigureWireMock(stubs = "classpath:/META-INF/com.tshen.pet/notification-service/**/*.json")
 class UserControllerIT {
 
   @Autowired MockMvc mvc;
   @MockBean KeycloakClientService keycloakClientService;
   @Autowired UserRepo repo;
   @Autowired ObjectMapper objectMapper;
+  @Autowired
+  NotificationService notificationService;
 
   @Test
   void whenPOST_users_givenUserDtoMissingField_shouldReturn400WithMessage() throws Exception {

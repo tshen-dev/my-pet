@@ -6,9 +6,11 @@ import com.tshen.pet.notification.contracts.controller.stubs.NotificationControl
 import com.tshen.pet.utils.controller.MyPetAdviceController;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@SpringBootTest(properties = {"spring.cloud.config.enabled=false"})
+@SpringBootTest
+@ActiveProfiles(profiles = "test")
 public abstract class ContractVerifierBase {
 
   @BeforeEach
