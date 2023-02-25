@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - github-action
-env:
-  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
