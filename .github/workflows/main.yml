@@ -8,7 +8,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
     steps:
-      - run: echo "$USER $TOKEN"
+      - run: echo "$USER $TOKEN $GITHUB_USER $GITHUB_TOKEN"
       - name: Check out repository code
         uses: actions/checkout@v3
 #       - name: Get changed files
