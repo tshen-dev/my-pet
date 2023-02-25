@@ -33,7 +33,7 @@ jobs:
 #         run: |
 #           echo "One or more files in the user-service folder has changed."
 #           echo "List all the files that have changed: ${{ steps.user-service-changed.outputs.all_changed_files }}"
-#       - run: cd services/user-service
+      - run: cd services/user-service
 #       - name: Validate Gradle wrapper
 #         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
