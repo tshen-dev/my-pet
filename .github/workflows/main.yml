@@ -10,7 +10,7 @@ jobs:
     environment: Dev
     steps:
       - run: echo "${{ vars.USER }} "
-      - run: echo %USER%
+      - run: echo $USER
 
 #       - name: Check out repository code
 #         uses: actions/checkout@v3
