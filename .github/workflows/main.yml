@@ -8,6 +8,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
     steps:
+      - run: echo "$USER $TOKEN"
       - name: Check out repository code
         uses: actions/checkout@v3
 #       - name: Get changed files
@@ -33,8 +34,6 @@ jobs:
 #         run: |
 #           echo "One or more files in the user-service folder has changed."
 #           echo "List all the files that have changed: ${{ steps.user-service-changed.outputs.all_changed_files }}"
-      - run: cd services/user-service
-      - run: pwd
 #       - name: Validate Gradle wrapper
 #         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
