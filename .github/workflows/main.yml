@@ -45,6 +45,7 @@ jobs:
           registry: ghcr.io
           username: ${{ vars.USER }}
           password: ${{ vars.TOKEN }}
-      - name: docker build
+      - name: Build Docker image
         run: docker build ./services/user-service -f ./services/user-service/Dockerfile -t ghcr.io/tshen-dev/user-service:0.0.1-SNAPSHOT --progress plain --build-arg version=0.0.1-SNAPSHOT --build-arg service_name=user-service
-          
+      - name: Push Docker image
+        run: docker push ghcr.io/tshen-dev/user-service:0.0.1-SNAPSHOT
