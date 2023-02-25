@@ -10,7 +10,7 @@ jobs:
     environment: Dev
     env:
       GITHUB_USER: ${{ vars.USER }}
-      GITHUB_TOKEN: ${{ vars.TOKEN }}
+      GITHUB_REPO_TOKEN: ${{ vars.TOKEN }}
     steps:
       - run: echo "${{ vars.USER }} "
       - run: echo "$GITHUB_USER $GITHUB_TOKEN"
