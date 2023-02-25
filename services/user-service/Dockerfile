@@ -1,11 +1,8 @@
-FROM gradle:7.4-jdk17-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src/user-service
-#RUN gradle build -xbootJar--no-daemon --info
-RUN gradle build --no-daemon --info
-
 FROM openjdk:17-jdk-slim
+LABEL org.opencontainers.image.source https://github.com/tshen-dev/my-pet
 EXPOSE 8080
+ARG version=unkown
+ARG service_name=unkown
 RUN mkdir /app
-COPY --from=build /home/gradle/src/user-service/build/libs/user-service-0.0.1-SNAPSHOT.jar /app/spring-boot-application.jar
+COPY build/libs/$service_name-$version.jar /app/spring-boot-application.jar
 ENTRYPOINT ["java", "-jar", "/app/spring-boot-application.jar"]
