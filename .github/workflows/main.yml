@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-20.04
     environment: Dev
     steps:
-      - run: echo "${{ vars.USER }}"
+      - run: echo "${{ vars.USER }} "
+      - run: echo %USER%
 
 #       - name: Check out repository code
 #         uses: actions/checkout@v3
