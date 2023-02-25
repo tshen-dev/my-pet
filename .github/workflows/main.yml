@@ -8,9 +8,12 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
     environment: Dev
+    env:
+      GITHUB_USER: ${{ vars.USER }}
+      GITHUB_TOKEN: ${{ vars.TOKEN }}
     steps:
       - run: echo "${{ vars.USER }} "
-      - run: echo $USER
+      - run: echo "$GITHUB_USER $GITHUB_TOKEN"
 
 #       - name: Check out repository code
 #         uses: actions/checkout@v3
