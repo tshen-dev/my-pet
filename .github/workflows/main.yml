@@ -26,4 +26,15 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
+      - name: Get changed files in the user-service folder
+        id: user-service-changed
+        uses: tj-actions/changed-files@v35
+        with:
+          files: services/user-service/**
+
+      - name: Run step if any file(s) in the user-service folder change
+        if: steps.user-service-changed.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the user-service folder has changed."
+          echo "List all the files that have changed: ${{ steps.user-service-changed.outputs.all_changed_files }}"
       - run: echo "🍏 This job's status is ${{ job.status }}."
