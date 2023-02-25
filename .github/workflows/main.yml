@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: My Pet application
+run-name: Build My Pet services
 on:
   push:
     branches:
@@ -18,16 +18,25 @@ jobs:
 #           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
 #             echo "$file was changed"
 #           done
-      - run: pwd
       - name: Get changed files in the user-service folder
         id: user-service-changed
         uses: tj-actions/changed-files@v35
         with:
           files: services/user-service/**
-
-      - name: Run step if any file(s) in the user-service folder change
-        if: steps.user-service-changed.outputs.any_changed == 'true'
-        run: |
-          echo "One or more files in the user-service folder has changed."
-          echo "List all the files that have changed: ${{ steps.user-service-changed.outputs.all_changed_files }}"
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+#       - name: Run step if any file(s) in the user-service folder change
+#         if: steps.user-service-changed.outputs.any_changed == 'true'
+#         run: |
+#           echo "One or more files in the user-service folder has changed."
+#           echo "List all the files that have changed: ${{ steps.user-service-changed.outputs.all_changed_files }}"
+      - run: cd services/user-service
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
