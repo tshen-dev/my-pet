@@ -49,5 +49,5 @@ jobs:
         with:
           build-root-directory: services/user-service
           gradle-version: 7.4
-          arguments: build
+          arguments: build --no-daemon --info
           
