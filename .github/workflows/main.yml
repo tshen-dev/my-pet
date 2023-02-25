@@ -12,14 +12,8 @@ jobs:
       GITHUB_USER: ${{ vars.USER }}
       GITHUB_REPO_TOKEN: ${{ vars.TOKEN }}
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ vars.USER }}
-          password: ${{ vars.TOKEN }}
-#       - name: Check out repository code
-#         uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
 #       - name: Get changed files in the user-service folder
 #         id: user-service-changed
@@ -44,6 +38,13 @@ jobs:
           build-root-directory: services/user-service
           gradle-version: 7.4
           arguments: build --no-daemon
+          
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ vars.USER }}
+          password: ${{ vars.TOKEN }}
       - name: docker build
         run: docker build ./services/user-service -f ./services/user-service/Dockerfile -t ghcr.io/tshen-dev/user-service:0.0.1-SNAPSHOT --progress plain --build-arg version=0.0.1-SNAPSHOT --build-arg service_name=user-service
           
