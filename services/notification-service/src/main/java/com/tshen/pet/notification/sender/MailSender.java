@@ -14,6 +14,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,22 +23,23 @@ import org.springframework.stereotype.Component;
 public class MailSender implements NotificationSender<MailInput> {
 
   private final Session session;
-  private final String fromEmail;
+  @Value("${notification.email.sender}")
+  private final String email;
 
-  public MailSender() {
+  public MailSender(Environment environment) {
     Properties prop = new Properties();
     prop.put("mail.smtp.host", "smtp.gmail.com");
     prop.put("mail.smtp.port", "587");
     prop.put("mail.smtp.starttls.enable", "true");
     prop.put("mail.smtp.auth", true);
 
-    fromEmail = "tshen.petproject@gmail.com";
-    var password = "zjvhlzzzdejabrwb";
+    email = environment.getProperty("notification.email.sender");
+    var emailPassword = environment.getProperty("notification.email.password");
 
     session = Session.getInstance(prop, new Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(fromEmail, password);
+        return new PasswordAuthentication(email, emailPassword);
       }
     });
   }
@@ -45,7 +48,7 @@ public class MailSender implements NotificationSender<MailInput> {
   public void send(MailInput input) {
     try {
       Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(fromEmail));
+      message.setFrom(new InternetAddress(email));
       message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(input.getTo()));
       message.setSubject(input.getTitle());
 

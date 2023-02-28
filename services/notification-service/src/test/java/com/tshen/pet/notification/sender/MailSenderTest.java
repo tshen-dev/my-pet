@@ -2,6 +2,9 @@ package com.tshen.pet.notification.sender;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.tshen.pet.notification.sender.input.MailInput;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
@@ -9,18 +12,20 @@ import jakarta.mail.Transport;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.springframework.core.env.Environment;
 
 class MailSenderTest {
 
-  private final MailSender instance = new MailSender();
+  private final Environment environment = mock(Environment.class);
 
   @Test
   void whenSend_givenMailInput_ThenCallTransportToSendMessage() {
+    when(environment.getProperty(anyString())).thenReturn("mockedValue");
     try (MockedStatic<Transport> transportMockedStatic = Mockito.mockStatic(Transport.class)) {
       MailInput mailInput = new MailInput();
-      mailInput.setTo("tshen.petproject@gmail.com");
+      mailInput.setTo("petproject@tshen.com");
 
-      instance.send(mailInput);
+      new MailSender(environment).send(mailInput);
 
       transportMockedStatic.verify(() -> Transport.send(any()));
     }
@@ -28,12 +33,14 @@ class MailSenderTest {
 
   @Test
   void whenSend_givenExceptionOccurWhenTransportSend_thenRethrowMyPetException() {
+    when(environment.getProperty(anyString())).thenReturn("mockedValue");
     try (MockedStatic<Transport> transportMockedStatic = Mockito.mockStatic(Transport.class)) {
       MailInput mailInput = new MailInput();
-      mailInput.setTo("tshen.petproject@gmail.com");
+      mailInput.setTo("petproject@tshen.com");
       transportMockedStatic.when(() -> Transport.send(any())).thenThrow(new RuntimeException());
 
-      assertThrows(MyPetRuntimeException.class, () -> instance.send(mailInput));
+      MailSender mailSender = new MailSender(environment);
+      assertThrows(MyPetRuntimeException.class, () -> mailSender.send(mailInput));
 
       transportMockedStatic.verify(() -> Transport.send(any()));
     }

@@ -23,3 +23,7 @@ spring:
 logging:
   level:
     root: ${LOG_LEVEL:info}
+notification:
+  email:
+    sender: ${NOTIFICATION_EMAIL_SENDER}
+    password: ${NOTIFICATION_EMAIL_PASSWORD}
