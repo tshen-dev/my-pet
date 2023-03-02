@@ -4,13 +4,13 @@ on:
   push:
     branches:
       - github-action
+env:
+  GITHUB_USER: ${{ vars.USER }}
+  GITHUB_REPO_TOKEN: ${{ vars.TOKEN }}
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-20.04
     environment: Dev
-    env:
-      GITHUB_USER: ${{ vars.USER }}
-      GITHUB_REPO_TOKEN: ${{ vars.TOKEN }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
