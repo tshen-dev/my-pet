@@ -8,6 +8,8 @@ import com.tshen.pet.utils.client.ApiResponse;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import java.util.List;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +34,13 @@ public class UserControllerStub extends UserController {
   }
 
   @Override
-  public ResponseEntity<ApiResponse<List<UserDto>>> getAll(Pageable pageable) {
-    return ResponseEntity.ok(ApiResponse.success(List.of(
+  public ResponseEntity<ApiResponse<Page<UserDto>>> getAll(Pageable pageable) {
+    return ResponseEntity.ok(ApiResponse.success(new PageImpl<>(List.of(
         UserDto.builder().firstName("Hen").lastName("Tran Sam")
             .userName("tshen").email("tshen.petproject@tshen.com").build(),
         UserDto.builder().firstName("Teo").lastName("Tony")
             .userName("ttony").email("ttony.petproject@tshen.com").build()
-    )));
+    ), pageable, 2L)));
   }
 
   @Override

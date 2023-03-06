@@ -11,9 +11,10 @@ import com.tshen.pet.user.mapper.UserMapper;
 import com.tshen.pet.user.model.User;
 import com.tshen.pet.user.repo.UserRepo;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl {
+public class UserService {
 
   private final UserMapper mapper;
   private final UserRepo repo;
@@ -82,8 +83,10 @@ public class UserServiceImpl {
     }
   }
 
-  public List<UserDto> findAll(Pageable pageable) {
-    return repo.findAll(pageable).stream().map(mapper::userToUserDto).toList();
+  public Page<UserDto> findAll(Pageable pageable) {
+    var userPage = repo.findAll(pageable);
+    var userDTOs = userPage.stream().map(mapper::userToUserDto).toList();
+    return new PageImpl<>(userDTOs, pageable, userPage.getTotalElements());
   }
 
   public UserDto deactivateUser(Integer id) {

@@ -22,12 +22,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-class UserServiceImplTest {
+class UserServiceTest {
 
   private final UserRepo repo = mock(UserRepo.class);
   private final KeycloakClientService keycloakClientService = mock(KeycloakClientService.class);
   private final UserMapper mapper = new UserMapperImpl();
-  private final UserServiceImpl instance = new UserServiceImpl(mapper, repo, keycloakClientService);
+  private final UserService instance = new UserService(mapper, repo, keycloakClientService);
 
   @Test
   void whenFindById_givenPresentId_thenReturnUserDto() {

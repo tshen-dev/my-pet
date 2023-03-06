@@ -34,6 +34,13 @@ tasks.register('clientJar', Jar) {
   include("com\\tshen\\pet\\user\\client\\**")
 }
 
+tasks.register('stubsJar', Jar) {
+  into("/") {
+    include('**/*.groovy')
+    from("${project.rootDir}/src/main/resources/contracts")
+  }
+}
+
 publishing {
   repositories {
     maven {
@@ -58,8 +65,6 @@ publishing {
     }
   }
 }
-
-build.finalizedBy publishToMavenLocal
 
 dependencies {
   apply from: "../dependencies.gradle"
@@ -114,13 +119,6 @@ contracts {
   contractsDslDir = file("src/test/resources/contracts")
   testFramework = "JUNIT5"
   baseClassForTests = "com.tshen.pet.user.contracts.ContractVerifierBase"
-}
-
-task stubsJar(type: Jar) {
-  into("/") {
-    include('**/*.groovy')
-    from("${project.rootDir}/src/main/resources/contracts")
-  }
 }
 
 contractTest {

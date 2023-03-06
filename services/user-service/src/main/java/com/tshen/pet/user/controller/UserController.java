@@ -1,10 +1,10 @@
 package com.tshen.pet.user.controller;
 
 import com.tshen.pet.user.dto.UserDto;
-import com.tshen.pet.user.service.UserServiceImpl;
+import com.tshen.pet.user.service.UserService;
 import com.tshen.pet.utils.client.ApiResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserServiceImpl userService;
+  private final UserService userService;
 
   @PostMapping
   public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody UserDto userDto) {
@@ -35,7 +35,7 @@ public class UserController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<UserDto>>> getAll(Pageable pageable) {
+  public ResponseEntity<ApiResponse<Page<UserDto>>> getAll(Pageable pageable) {
     return ResponseEntity.ok(ApiResponse.success(this.userService.findAll(pageable)));
   }
 

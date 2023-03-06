@@ -87,10 +87,10 @@ class UserControllerIT {
     mvc.perform(get("/users"))
         .andExpect(status().isOk())
         .andExpectAll(
-            jsonPath("$.data.[0].firstName", is(userDb.getFirstName())),
-            jsonPath("$.data.[0].lastName", is(userDb.getLastName())),
-            jsonPath("$.data.[0].userName", is(userDb.getUserName())),
-            jsonPath("$.data.[0].email", is(userDb.getEmail())));
+            jsonPath("$.data.content.[0].firstName", is(userDb.getFirstName())),
+            jsonPath("$.data.content.[0].lastName", is(userDb.getLastName())),
+            jsonPath("$.data.content.[0].userName", is(userDb.getUserName())),
+            jsonPath("$.data.content.[0].email", is(userDb.getEmail())));
   }
 
   private void whenGET_users_withId_givenUserId_thenReturn200AndUserInfo(User userDb) throws Exception {
