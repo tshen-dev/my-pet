@@ -1,11 +1,13 @@
 package com.tshen.pet.user.service;
 
 import com.tshen.pet.notification.client.request.NotificationRequest;
+import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.webclient.NotificationClient;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import feign.FeignException.FeignClientException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
 
   private final NotificationClient notificationClient;
+  private final KafkaTemplate<String, Object> kafkaTemplate;
 
   public void sendNotification(NotificationRequest request) {
     try {
@@ -22,5 +25,21 @@ public class NotificationService {
       //TODO: handle exception
       throw new MyPetRuntimeException("Could not send notification");
     }
+  }
+
+  public void sendVerifyMail(UserDto user) {
+    var notificationRequest = new NotificationRequest();
+    notificationRequest.setTitle("Verify mail");
+    notificationRequest.setTo(user.getEmail());
+    notificationRequest.setContent("Are you " + user.getUserName() + "?");
+    kafkaTemplate.send("notifications", notificationRequest);
+  }
+
+  public void sendWelcomeMail(UserDto user) {
+    var notificationRequest = new NotificationRequest();
+    notificationRequest.setTitle("Sign up mail");
+    notificationRequest.setTo(user.getEmail());
+    notificationRequest.setContent("Welcome " + user.getUserName() + "!");
+    kafkaTemplate.send("notifications", notificationRequest);
   }
 }

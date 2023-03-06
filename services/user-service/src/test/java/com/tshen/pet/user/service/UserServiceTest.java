@@ -27,7 +27,8 @@ class UserServiceTest {
   private final UserRepo repo = mock(UserRepo.class);
   private final KeycloakClientService keycloakClientService = mock(KeycloakClientService.class);
   private final UserMapper mapper = new UserMapperImpl();
-  private final UserService instance = new UserService(mapper, repo, keycloakClientService);
+  private final NotificationService notificationService = mock(NotificationService.class);
+  private final UserService instance = new UserService(mapper, repo, keycloakClientService, notificationService);
 
   @Test
   void whenFindById_givenPresentId_thenReturnUserDto() {

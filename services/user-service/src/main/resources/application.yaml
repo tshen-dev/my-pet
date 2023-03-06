@@ -30,9 +30,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   mvc:
     log-resolved-exception: false
+  kafka:
+    bootstrap-servers: ${KAFKA_URL:http://localhost:9092}
 feign-client:
   notification-service:
     url: ${NOTIFICATION_SERVICE_URL:http://localhost:8082}
 logging:
   level:
     root: ${LOG_LEVEL:info}
+    org.apache.kafka: warn

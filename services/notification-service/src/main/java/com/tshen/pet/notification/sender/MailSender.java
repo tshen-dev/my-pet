@@ -14,7 +14,6 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Component;
 public class MailSender implements NotificationSender<MailInput> {
 
   private final Session session;
-  @Value("${notification.email.sender}")
   private final String email;
 
   public MailSender(Environment environment) {

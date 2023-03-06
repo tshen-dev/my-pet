@@ -1,5 +1,7 @@
 package com.tshen.pet.user.controller;
 
+import static com.tshen.pet.utils.client.ApiResponse.success;
+
 import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.service.UserService;
 import com.tshen.pet.utils.client.ApiResponse;
@@ -25,22 +27,27 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody UserDto userDto) {
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(ApiResponse.success(this.userService.createUser(userDto)));
+    return ResponseEntity.status(HttpStatus.CREATED).body(success(this.userService.createUser(userDto)));
   }
 
   @GetMapping("{id}")
   public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable Integer id) {
-    return ResponseEntity.ok(ApiResponse.success(this.userService.findById(id)));
+    return ResponseEntity.ok(success(this.userService.findById(id)));
   }
 
   @GetMapping
   public ResponseEntity<ApiResponse<Page<UserDto>>> getAll(Pageable pageable) {
-    return ResponseEntity.ok(ApiResponse.success(this.userService.findAll(pageable)));
+    return ResponseEntity.ok(success(this.userService.findAll(pageable)));
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<ApiResponse<UserDto>> deactivateUser(@PathVariable Integer id) {
-    return ResponseEntity.ok(ApiResponse.success(this.userService.deactivateUser(id)));
+    return ResponseEntity.ok(success(this.userService.deactivateUser(id)));
+  }
+
+  @PostMapping("/verify/{id}")
+  public ResponseEntity<Object> verify(@PathVariable Integer id) {
+    this.userService.sendVerifyUser(id);
+    return ResponseEntity.noContent().build();
   }
 }

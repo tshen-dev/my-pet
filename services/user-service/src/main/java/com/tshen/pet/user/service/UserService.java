@@ -28,6 +28,7 @@ public class UserService {
   private final UserMapper mapper;
   private final UserRepo repo;
   private final KeycloakClientService keycloakClientService;
+  private final NotificationService notificationService;
 
   public UserDto findById(Integer id) {
     return mapper.userToUserDto(findByIdThrowIfMissing(id));
@@ -52,8 +53,11 @@ public class UserService {
 
         keycloakClientService.updateAttribute(keycloakId, "user-id", String.valueOf(user.getId()));
 
+        var userCreatedDto = mapper.userToUserDto(user);
+        notificationService.sendWelcomeMail(userCreatedDto);
+
         log.info("User created [userName={}]", userName);
-        return mapper.userToUserDto(user);
+        return userCreatedDto;
       } catch (Exception ex) {
         log.info("Create user failed, rollback user [userName={}]", userName);
         rollbackUserCreation(userName, userCreationProcessDto);
@@ -100,5 +104,10 @@ public class UserService {
     return repo.findById(id)
         .orElseThrow(() ->
             new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [userId={}]", id));
+  }
+
+  public void sendVerifyUser(Integer id) {
+    notificationService.sendVerifyMail(findById(id));
+    log.info("Sent verify mail [userId={}]", id);
   }
 }

@@ -20,10 +20,13 @@ spring:
     active: ${ACTIVE_PROFILES:}
   config:
     import: optional:configserver:${SPRING_CLOUD_CONFIG_URL:http://localhost:8080}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL:http://localhost:9092}
 logging:
   level:
     root: ${LOG_LEVEL:info}
+    org.apache.kafka: warn
 notification:
   email:
-    sender: ${NOTIFICATION_EMAIL_SENDER}
-    password: ${NOTIFICATION_EMAIL_PASSWORD}
+    sender: ${NOTIFICATION_EMAIL_SENDER:}
+    password: ${NOTIFICATION_EMAIL_PASSWORD:}

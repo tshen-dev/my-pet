@@ -23,6 +23,8 @@ ext {
 
       springOpenfeign: "org.springframework.cloud:spring-cloud-starter-openfeign",
 
+      springKafka: 'org.springframework.kafka:spring-kafka',
+
       angusMail: 'org.eclipse.angus:angus-mail:2.0.1',
       jakartaActivationApi: 'jakarta.activation:jakarta.activation-api:2.1.1',
       jakartaMailApi: 'jakarta.mail:jakarta.mail-api:2.1.1'

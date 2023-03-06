@@ -17,16 +17,14 @@ public class BeanConfig {
 
   @Bean
   public RealmResource realmsResource() {
-    KeycloakBuilder keycloakBuilder = KeycloakBuilder.builder()
+    return KeycloakBuilder.builder()
         .serverUrl(keycloakServerUrl)
         .realm("master")
         .grantType(OAuth2Constants.PASSWORD)
         .username(keycloakAdminUser)
         .password(keycloakAdminPassword)
-        .clientId("admin-cli");
-
-    try (var keycloak = keycloakBuilder.build()) {
-      return keycloak.realm(keycloakRealm);
-    }
+        .clientId("admin-cli")
+        .build()
+        .realm(keycloakRealm);
   }
 }
