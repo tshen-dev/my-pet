@@ -4,6 +4,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:19.0.3
     container_name: my-pet-keycloak
+    restart: always
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
