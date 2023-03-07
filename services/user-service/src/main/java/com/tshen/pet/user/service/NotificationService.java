@@ -18,6 +18,10 @@ public class NotificationService {
   private final NotificationClient notificationClient;
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
+  private void sendKafkaMessage(NotificationRequest notificationRequest) {
+    kafkaTemplate.send("notifications", notificationRequest);
+  }
+
   public void sendNotification(NotificationRequest request) {
     try {
       notificationClient.sendNotification(request);
@@ -32,7 +36,7 @@ public class NotificationService {
     notificationRequest.setTitle("Verify mail");
     notificationRequest.setTo(user.getEmail());
     notificationRequest.setContent("Are you " + user.getUserName() + "?");
-    kafkaTemplate.send("notifications", notificationRequest);
+    sendKafkaMessage(notificationRequest);
   }
 
   public void sendWelcomeMail(UserDto user) {
@@ -40,6 +44,6 @@ public class NotificationService {
     notificationRequest.setTitle("Sign up mail");
     notificationRequest.setTo(user.getEmail());
     notificationRequest.setContent("Welcome " + user.getUserName() + "!");
-    kafkaTemplate.send("notifications", notificationRequest);
+    sendKafkaMessage(notificationRequest);
   }
 }

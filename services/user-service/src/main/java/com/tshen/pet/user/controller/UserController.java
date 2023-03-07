@@ -45,7 +45,7 @@ public class UserController {
     return ResponseEntity.ok(success(this.userService.deactivateUser(id)));
   }
 
-  @PostMapping("/verify/{id}")
+  @PostMapping("/email-verify/{id}")
   public ResponseEntity<Object> verify(@PathVariable Integer id) {
     this.userService.sendVerifyUser(id);
     return ResponseEntity.noContent().build();
