@@ -23,14 +23,14 @@ class UserMapperTest {
         .build();
 
     UserMapper mapper = Mappers.getMapper(UserMapper.class);
-    var userDto = mapper.userToUserDto(user);
+    var userDto = mapper.toUserDto(user);
 
     assertEquals(user.getId(), userDto.getId());
     assertEquals(user.getFirstName(), userDto.getFirstName());
     assertEquals(user.getLastName(), userDto.getLastName());
     assertEquals(user.getEmail(), userDto.getEmail());
     assertEquals(user.getUserName(), userDto.getUserName());
-    assertNull(mapper.userToUserDto(null));
+    assertNull(mapper.toUserDto(null));
   }
 
   @Test
@@ -45,13 +45,13 @@ class UserMapperTest {
         .build();
 
     UserMapper mapper = Mappers.getMapper(UserMapper.class);
-    var user = mapper.userDtoToUser(userDto);
+    var user = mapper.toUser(userDto);
 
     assertEquals(userDto.getId(), user.getId());
     assertEquals(userDto.getFirstName(), user.getFirstName());
     assertEquals(userDto.getLastName(), user.getLastName());
     assertEquals(userDto.getEmail(), user.getEmail());
     assertEquals(userDto.getUserName(), user.getUserName());
-    assertNull(mapper.userDtoToUser(null));
+    assertNull(mapper.toUser(null));
   }
 }

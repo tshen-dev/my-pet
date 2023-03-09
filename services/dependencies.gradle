@@ -15,6 +15,9 @@ ext {
       springDataJpa: 'org.springframework.boot:spring-boot-starter-data-jpa',
       liquibase: 'org.liquibase:liquibase-core:4.19.0',
 
+      mongo: 'org.mongodb:mongodb-driver-sync',
+      springMongo: 'org.springframework.data:spring-data-mongodb',
+
       mapstruct: 'org.mapstruct:mapstruct:1.5.3.Final',
       mapstructProcessor: 'org.mapstruct:mapstruct-processor:1.5.3.Final',
 

@@ -19,6 +19,8 @@ dependencies {
   implementation libs.springStarterSecurity
   implementation libs.keycloakSpringBootStarter
 
+  implementation libs.springDataJpa
+
   compileOnly libs.lombok
   annotationProcessor libs.lombok
 }

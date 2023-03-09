@@ -79,7 +79,7 @@ class UserServiceTest {
         .userName("tshen")
         .password("tshen")
         .build();
-    var user = mapper.userDtoToUser(userDto);
+    var user = mapper.toUser(userDto);
     when(repo.findAllByUserNameOrEmail(any(), any())).thenReturn(List.of());
     when(repo.save(any())).thenReturn(user);
 
@@ -122,7 +122,7 @@ class UserServiceTest {
         .userName("tshen")
         .password("tshen")
         .build();
-    var user = mapper.userDtoToUser(userDto);
+    var user = mapper.toUser(userDto);
     when(repo.findAllByUserNameOrEmail(any(), any())).thenReturn(List.of());
     when(repo.save(any())).thenReturn(user);
     doThrow(new RuntimeException()).when(keycloakClientService).updateAttribute(any(),any() ,any());

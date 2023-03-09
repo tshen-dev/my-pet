@@ -10,8 +10,8 @@ import org.mapstruct.MappingConstants.ComponentModel;
 public interface UserMapper {
 
   @Mapping(target = "keycloakId", ignore = true)
-  User userDtoToUser(UserDto userDto);
+  User toUser(UserDto userDto);
 
   @Mapping(target = "password", ignore = true)
-  UserDto userToUserDto(User user);
+  UserDto toUserDto(User user);
 }

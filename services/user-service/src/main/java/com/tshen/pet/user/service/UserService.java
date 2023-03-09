@@ -10,11 +10,11 @@ import com.tshen.pet.user.dto.UserDto;
 import com.tshen.pet.user.mapper.UserMapper;
 import com.tshen.pet.user.model.User;
 import com.tshen.pet.user.repo.UserRepo;
+import com.tshen.pet.utils.RepoUtils;
 import com.tshen.pet.utils.exceptions.MyPetRuntimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class UserService {
   private final NotificationService notificationService;
 
   public UserDto findById(Integer id) {
-    return mapper.userToUserDto(findByIdThrowIfMissing(id));
+    return mapper.toUserDto(findByIdThrowIfMissing(id));
   }
 
   @Transactional
@@ -46,14 +46,14 @@ public class UserService {
         String keycloakId = keycloakClientService.createUser(userDto);
         userCreationProcessDto.setCreatedInKeycloak(true);
 
-        var user = mapper.userDtoToUser(userDto);
+        var user = mapper.toUser(userDto);
         user.setKeycloakId(keycloakId);
         user = repo.save(user);
         userCreationProcessDto.setCreatedInSystem(true);
 
         keycloakClientService.updateAttribute(keycloakId, "user-id", String.valueOf(user.getId()));
 
-        var userCreatedDto = mapper.userToUserDto(user);
+        var userCreatedDto = mapper.toUserDto(user);
         notificationService.sendWelcomeMail(userCreatedDto);
 
         log.info("User created [userName={}]", userName);
@@ -88,16 +88,14 @@ public class UserService {
   }
 
   public Page<UserDto> findAll(Pageable pageable) {
-    var userPage = repo.findAll(pageable);
-    var userDTOs = userPage.stream().map(mapper::userToUserDto).toList();
-    return new PageImpl<>(userDTOs, pageable, userPage.getTotalElements());
+    return RepoUtils.findAll(repo, mapper::toUserDto, pageable);
   }
 
   public UserDto deactivateUser(Integer id) {
     var user = findByIdThrowIfMissing(id);
     this.keycloakClientService.deActiveUser(user.getUserName());
     log.info("De-active user [userName={}]", user.getUserName());
-    return mapper.userToUserDto(user);
+    return mapper.toUserDto(user);
   }
 
   private User findByIdThrowIfMissing(Integer id) {

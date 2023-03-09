@@ -1,0 +1,22 @@
+keycloak:
+  enabled: false
+  realm: ${KEYCLOAK_REALM:MyPetDev}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:9000}
+  resource: ${KEYCLOAK_CLIENT:my-pet}
+  bearer-only: true
+  admin-user: ${KEYCLOAK_ADMIN_USER:admin}
+  admin-password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
+
+server:
+  servlet:
+    context-path: /product-service
+spring:
+  application:
+    name: product-service
+  config:
+    import: optional:configserver:${SPRING_CLOUD_CONFIG_URL:http://localhost:8080}
+  mvc:
+    log-resolved-exception: false
+logging:
+  level:
+    root: ${LOG_LEVEL:info}
