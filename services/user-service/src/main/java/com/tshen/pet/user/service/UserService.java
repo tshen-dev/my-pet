@@ -34,6 +34,13 @@ public class UserService {
     return mapper.toUserDto(findByIdThrowIfMissing(id));
   }
 
+  public UserDto findByKeycloakId(String keycloakId) {
+    return repo.findByKeycloakId(keycloakId)
+        .map(mapper::toUserDto)
+        .orElseThrow(() ->
+            new MyPetRuntimeException(HttpStatus.NOT_FOUND, "Could not found user by [keycloakId={}]", keycloakId));
+  }
+
   @Transactional
   public UserDto createUser(UserDto userDto) {
     validateUserCreationDto(userDto);

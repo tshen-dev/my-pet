@@ -12,8 +12,8 @@ public class BeanConfig {
 
   private @Value("${keycloak.auth-server-url}") String keycloakServerUrl;
   private @Value("${keycloak.realm}") String keycloakRealm;
-  private @Value("${keycloak.admin-user}") String keycloakAdminUser;
-  private @Value("${keycloak.admin-password}") String keycloakAdminPassword;
+  private @Value("${user-service.keycloak.admin-user}") String keycloakAdminUser;
+  private @Value("${user-service.keycloak.admin-password}") String keycloakAdminPassword;
 
   @Bean
   public RealmResource realmsResource() {
@@ -27,4 +27,14 @@ public class BeanConfig {
         .build()
         .realm(keycloakRealm);
   }
+
+//  @Bean
+//  public WebMvcConfigurer corsConfigurer() {
+//    return new WebMvcConfigurer() {
+//      @Override
+//      public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**").allowedOrigins("*");
+//      }
+//    };
+//  }
 }

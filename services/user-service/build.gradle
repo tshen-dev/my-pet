@@ -74,6 +74,7 @@ dependencies {
   implementation libs.springStarter
   implementation libs.springStarterWeb
   implementation libs.springStarterConfig
+  implementation libs.springStarterSecurity
 
   implementation libs.keycloakSpringBootStarter
   implementation libs.keycloakAdminClient
